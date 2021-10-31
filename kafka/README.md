@@ -7,8 +7,8 @@
 `Partition`: db에서 데이터가 많아지면 샤딩을 하듯, 로드밸런싱을 위해 토픽 내에서 특정 기준으로 분할함(예: 홀/짝)
 
 `Consumer group`: 컨슈머 관점에서 파티션을 고려하면 복잡도가 증가하므로, 파티션 추상화를 위해 도입되는 개념. 
-예) Group 한 개, Cosumer 한 개, Partition 두 개가 있는 경우 => Consumer 1이 두 개의 파티션을 모두 처리함
-예) Group 한 개, Cosumer 두 개, Partition 두 개가 있는 경우 => 각각의 consumer가 각각의 파티션을 처리함
+> 예) Group 한 개, Cosumer 한 개, Partition 두 개가 있는 경우 => Consumer 1이 두 개의 파티션을 모두 처리함 <br />
+> Group 한 개, Cosumer 두 개, Partition 두 개가 있는 경우 => 각각의 consumer가 각각의 파티션을 처리함
 
 Consumer/Partition 규칙: 동일한 그룹 내에서, 하나의 컨슈머가 여러개의 파티션을 처리할 수 있지만, 여러개의 컨슈머가 하나의 파티션을 처리할 순 없다.
 > 예) Group 한 개, Cosumer 두 개, Partition 두 개가 있는 경우 => Group에 더 이상 새로운 Consumer를 추가할 수 없음
@@ -31,7 +31,7 @@ Kafka가 특이한 점은 Queue처럼 사용할 수도 있고, Pub/Sub처럼 사
 여러 개의 Kafka broker가 존재할 때, leader에 메시지가 쓰이면 follower가 따라서 씀. 같은 토픽 내에서 partition에 따라 리더가 다를 수 있음(즉 일방적인 관계가 아님).
 아래 그림을 보면, broker 9092가 users topic의 partition 1 의 leader이고, broker 9093이 users topic의 partition 2 의 leader이다.
  
-
+<img width="984" alt="Follower" src="https://user-images.githubusercontent.com/24839897/139593771-969bc4f7-a08a-4242-a854-56f3ce6401d2.png">
 
 여기서, 어떤 브로커가 어떤 파티션의 리더인지를 관리하는 역할을 Zookeeper 라는 친구가 한다. 강의하는 사람은 딱히 마음에 들어하진 않는듯..
 
