@@ -23,6 +23,9 @@ async function run() {
 
     await consumer.run({
       eachMessage: async result => {
+        for (let index = 0; index < 100_000; index++) {
+          Math.random();
+        }
         console.log(`RVDMSG ${result.message.value} on partition ${result.partition}`);
       }
     });

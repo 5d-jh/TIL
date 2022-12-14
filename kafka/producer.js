@@ -1,10 +1,11 @@
 const { Kafka } = require("kafkajs");
-
-const msg = process.argv[2];
+const uuid = require('uuid');
 
 run();
 
 async function run() {
+
+  
   try {
     const kafka = new Kafka({
       clientId: "myapp",
@@ -18,17 +19,22 @@ async function run() {
 
     // A-M: 0, N-Z: 1
 
-    const partition = msg[0] < "N" ? 0 : 1;
+    
 
-    const result = await producer.send({
-      topic: 'Users',
-      messages: [{
-        value: msg,
-        partition,
-      }]
-    });
-
-    console.log(`sent! ${JSON.stringify(result)}`);
+    for (let i = 0; i < 100; i++) {
+      const msg = uuid.v4();
+      const partition = msg[0] < "a" ? 0 : 1;
+      const result = await producer.send({
+        topic: 'Users',
+        messages: [{
+          value: msg,
+          partition,
+        }]
+      });
+  
+      console.log(`sent! ${JSON.stringify(result)}`);
+    }
+    
     await producer.disconnect();
   } catch (e) {
     console.error(`Somthing bad happened ${e}`)
